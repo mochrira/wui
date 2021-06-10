@@ -9,3 +9,16 @@ This package is User Interface collection for Wajek Studio Apps. It using the sa
 - List Tile
 - Modal
 - Themes
+
+## [0.2.0] - 10 June 2021 - Providers
+
+- Config
+- Stream
+- Loading
+- Dialog
+- Drawer
+- Buttons
+    - Large
+    - Rounded
+    - Smooth
+    - Icon
