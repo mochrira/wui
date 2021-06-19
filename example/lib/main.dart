@@ -1,3 +1,4 @@
+import 'package:example/pages/button/button_page.dart';
 import 'package:flutter/material.dart';
 import 'package:wui/wui.dart';
 
@@ -9,16 +10,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    WuiConfig.addValue('apiURL', "https://api.laundry.wajek.id");
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: WuiDefaultTheme.light(context),
-      home: MyHomePage(),
+      home: ButtonPage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -90,10 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             actions: [
                               WuiButton(
-                                child: Text("BATAL"),
+                                text: "BATAL",
                               ),
                               WuiButton(
-                                child: Text("SIMPAN"),
+                                text: "SIMPAN",
                               )
                             ],
                           )
