@@ -7,3 +7,4 @@ export './button/button.dart';
 export './modal/modal.dart';
 export './utils/config.dart';
 export './drawer/drawer.dart';
+export './loading/loading.dart';

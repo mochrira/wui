@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:example/pages/button/button_page.dart';
 import 'package:flutter/material.dart';
 import 'package:wui/wui.dart';
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: WuiDefaultTheme.light(context),
-      home: ButtonPage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -59,6 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, index) {
+          if(index == items.length) {
+            return WuiLoading();
+          }
+
           return WuiListTile(
             title: Text(items[index]["title"] ?? ""),
             subtitle: Text(items[index]["subtitle"] ?? ""),
@@ -66,63 +72,67 @@ class _MyHomePageState extends State<MyHomePage> {
             trailing: Icon(Icons.chevron_right),
             borderMode: index == items.length - 1 ? 'none' : 'normal',
             onTap: () {
-              showModalBottomSheet(context: context, builder: (BuildContext context) {
-                return WuiActionSheet(
-                  title: Text(items[index]["title"]),
-                  actions: [
-                    WuiListTile(
-                      leading: Icon(Icons.edit),
-                      title: Text("Edit Wireless"),
-                      borderMode: 'normal',
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        showDialog(
-                          context: context, 
-                          builder: (BuildContext context) => WuiModal(
-                            title: Text("Enter Your Device Name"),
-                            insetBody: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                TextField(
-                                  decoration: InputDecoration(
-                                    hintText: "Alphanumeric [A-Z,0-9]",
-                                    labelText: "Nama Wireless"
-                                  ),
-                                )
-                              ],
-                            ),
-                            actions: [
-                              WuiButton(
-                                text: "BATAL",
-                              ),
-                              WuiButton(
-                                text: "SIMPAN",
-                              )
-                            ],
-                          )
-                        );
-                      },
-                    ),
-                    WuiListTile(
-                      leading: Icon(Icons.delete),
-                      title: Text("Delete Wireless"),
-                      onTap: () {
-
-                      },
-                    ),
-                    WuiListTile(
-                      title: Text("See Also"),
-                      onTap: () {
-
-                      },
-                    )
-                  ],
-                );
+              WuiLoading.modal(context);
+              Timer(Duration(seconds: 5), () {
+                WuiLoading.close(context);
               });
+              // showModalBottomSheet(context: context, builder: (BuildContext context) {
+              //   return WuiActionSheet(
+              //     title: Text(items[index]["title"]),
+              //     actions: [
+              //       WuiListTile(
+              //         leading: Icon(Icons.edit),
+              //         title: Text("Edit Wireless"),
+              //         borderMode: 'normal',
+              //         onTap: () {
+              //           Navigator.of(context).pop();
+              //           showDialog(
+              //             context: context, 
+              //             builder: (BuildContext context) => WuiModal(
+              //               title: Text("Enter Your Device Name"),
+              //               insetBody: Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.stretch,
+              //                 children: [
+              //                   TextField(
+              //                     decoration: InputDecoration(
+              //                       hintText: "Alphanumeric [A-Z,0-9]",
+              //                       labelText: "Nama Wireless"
+              //                     ),
+              //                   )
+              //                 ],
+              //               ),
+              //               actions: [
+              //                 WuiButton(
+              //                   text: "BATAL",
+              //                 ),
+              //                 WuiButton(
+              //                   text: "SIMPAN",
+              //                 )
+              //               ],
+              //             )
+              //           );
+              //         },
+              //       ),
+              //       WuiListTile(
+              //         leading: Icon(Icons.delete),
+              //         title: Text("Delete Wireless"),
+              //         onTap: () {
+
+              //         },
+              //       ),
+              //       WuiListTile(
+              //         title: Text("See Also"),
+              //         onTap: () {
+
+              //         },
+              //       )
+              //     ],
+              //   );
+              // });
             },
           );
         }, 
-        itemCount: items.length
+        itemCount: items.length + 1
       )
     );
   }
