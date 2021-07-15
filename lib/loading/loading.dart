@@ -6,7 +6,15 @@ class WuiLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator()
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: 32, minWidth: 32,
+          maxHeight: 32, maxWidth: 32
+        ),
+        child: CircularProgressIndicator(
+          strokeWidth: 3,
+        ),
+      )
       );
   }
 
@@ -23,6 +31,11 @@ class WuiLoading extends StatelessWidget {
           elevation: 0,
           child: Center(
             child: Container(
+              constraints: BoxConstraints(
+                minHeight: 48, minWidth: 48,
+                maxHeight: 48, maxWidth: 48
+              ),
+              padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(48),
                 color: Colors.white,
@@ -32,8 +45,9 @@ class WuiLoading extends StatelessWidget {
                   offset: Offset(0, 0)
                 )]
               ),
-              padding: EdgeInsets.all(16),
-              child: CircularProgressIndicator()
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+              )
             )
           )
         ),
