@@ -2,36 +2,58 @@ import 'package:flutter/material.dart';
 
 class WuiModal extends StatelessWidget {
 
-  final Widget? title;
-  final Widget? insetBody;
-  final Widget? body;
-  final List<Widget>? actions;
-  const WuiModal({ Key? key, this.title, this.insetBody, this.body, this.actions }) : super(key: key);
+  final Widget? header;
+  final Widget? insetContent;
+  final Widget? content;
+  final Widget? footer;
+  const WuiModal({ Key? key, this.header, this.insetContent, this.content, this.footer }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8)
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          ...(title != null ? [Container(
-            padding: EdgeInsets.all(16),
+          ...(header != null ? [Container(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             child: DefaultTextStyle(
-              style: (Theme.of(context).textTheme.subtitle1 ?? TextStyle(
-                fontSize: 16
-              )).copyWith(
+              style: (Theme.of(context).textTheme.subtitle1 ?? TextStyle()).copyWith(
+                fontSize: 20,
                 fontWeight: FontWeight.w500
               ),
-              child: Container(child: title),
+              child: Container(child: header),
             ),
           )] : []),
-          ...[Container(
-            padding: (insetBody != null ? EdgeInsets.fromLTRB(16, 0, 16, 16) : EdgeInsets.all(0)),
-            child: insetBody ?? body
-          )],
+          ...(insetContent != null || content != null ? [Container(
+            padding: (insetContent != null ? EdgeInsets.fromLTRB(24, 0, 24, 20) : EdgeInsets.all(0)),
+            child: insetContent ?? content
+          )] : []),
+          ...(footer != null ? [Container(
+            padding: EdgeInsets.fromLTRB(24, 0, 24, 20),
+            child: footer
+          )] : []),
         ],
       ),
     );
+  }
+
+  static Future<dynamic> open(BuildContext context, {
+    Widget? header,
+    Widget? insetContent,
+    Widget? content,
+    Widget? footer
+  }) {
+    return showDialog(context: context, builder: (BuildContext context) {
+      return WuiModal(
+        header: header,
+        insetContent: insetContent,
+        content: content,
+        footer: footer,
+      );
+    });
   }
 }

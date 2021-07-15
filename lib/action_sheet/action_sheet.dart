@@ -27,4 +27,16 @@ class WuiActionSheet extends StatelessWidget {
       ],
     );
   }
+
+  static Future<dynamic> open(BuildContext context, {
+    Widget? title,
+    List<Widget>? actions
+  }) {
+    return showModalBottomSheet(context: context, builder: (BuildContext context) {
+      return WuiActionSheet(
+        title: title,
+        actions: actions
+      );
+    });
+  }
 }
