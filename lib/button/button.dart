@@ -9,6 +9,7 @@ class WuiButton extends StatelessWidget {
   final String? text;
   final IconData? icon;
   final WuiButtonIconPos? iconPos;
+  final bool? iconOnly;
 
   final WuiButtonSize? size;
   final bool? rounded;
@@ -21,6 +22,7 @@ class WuiButton extends StatelessWidget {
     this.text,
     this.icon,
     this.iconPos = WuiButtonIconPos.prefix,
+    this.iconOnly,
     this.size = WuiButtonSize.normal,
     this.rounded = false,
     this.smooth = false,
@@ -37,19 +39,27 @@ class WuiButton extends StatelessWidget {
   }
 
   EdgeInsets getPadding() {
-    return this.size == WuiButtonSize.normal ? (
-      rounded == true ? EdgeInsets.symmetric(horizontal: 24) : EdgeInsets.symmetric(horizontal: 16)
-    ) : (
-      rounded == true ? EdgeInsets.symmetric(horizontal: 32) : EdgeInsets.symmetric(horizontal: 24)
-    );
+    double horizontalPadding = 16;
+    if(iconOnly == true) {
+      horizontalPadding = (size == WuiButtonSize.normal ? 6 : 12);
+    } else {
+      if(rounded == true) {
+        horizontalPadding = (size == WuiButtonSize.normal ? 24 : 32);
+      } else {
+        horizontalPadding = (size == WuiButtonSize.normal ? 16 : 24);
+      }
+    }
+    return EdgeInsets.symmetric(horizontal: horizontalPadding);
   }
 
   BorderRadius getBorderRadius() {
-    return this.size == WuiButtonSize.normal ? (
-      rounded == true ? BorderRadius.circular(18) : BorderRadius.circular(4)
-    ) : (
-      rounded == true ? BorderRadius.circular(24) : BorderRadius.circular(8)
-    );
+    double radius = 4;
+    if(iconOnly == true || rounded == true) {
+      radius = (size == WuiButtonSize.normal ? 18 : 24);
+    } else {
+      radius = (size == WuiButtonSize.normal ? 4 : 8);
+    }
+    return BorderRadius.circular(radius);
   }
 
   Color getThemeColor(BuildContext context) {
@@ -136,9 +146,18 @@ class WuiButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ...(icon != null ? (iconPos == WuiButtonIconPos.prefix ? [Icon(icon), getIconSpacing()] : []) : []),
-                ...(text != null ? [Text(text ?? '')] : []),
-                ...(icon != null ? (iconPos == WuiButtonIconPos.suffix ? [getIconSpacing(), Icon(icon)] : []) : [])
+                // leading icon
+                ...(icon != null ? (iconPos == WuiButtonIconPos.prefix ? 
+                  [Icon(icon), ...((iconOnly ?? false) == false ? [getIconSpacing()] :[])] : [])
+                 : []),
+
+                // text
+                ...(text != null && (iconOnly ?? false) == false ? [Text(text ?? '')] : []),
+
+                // trailing icon
+                ...(icon != null ? (iconPos == WuiButtonIconPos.suffix ? 
+                  [...((iconOnly ?? false) == false ? [getIconSpacing()] :[]), Icon(icon)] : [])
+                 : [])
               ],
             )
           ),

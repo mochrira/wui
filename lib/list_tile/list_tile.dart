@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wui/themes/constants.dart';
+
+BorderSide listTileBorderSide = BorderSide(
+  color: defaultBorderColor
+);
 
 class WuiListTile extends StatelessWidget {
 
@@ -10,8 +15,8 @@ class WuiListTile extends StatelessWidget {
   final String borderMode;
 
   WuiListTile({ Key? key, 
-    this.onTap, 
-    this.title, 
+    this.onTap,
+    this.title,
     this.subtitle,
     this.leading,
     this.trailing,
@@ -20,7 +25,7 @@ class WuiListTile extends StatelessWidget {
 
   final IconThemeData iconThemeData = IconThemeData(
     color: Colors.black87
-  );
+  );  
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +35,7 @@ class WuiListTile extends StatelessWidget {
         padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
           border: Border(
-            bottom: borderMode == 'full' ? BorderSide(
-              color: Colors.black12
-            ) : BorderSide.none
+            bottom: borderMode == 'full' ? listTileBorderSide : BorderSide.none
           )
         ),
         child: Row(
@@ -54,9 +57,7 @@ class WuiListTile extends StatelessWidget {
                 padding: EdgeInsets.only(top: 16, bottom: 16, right: 12),
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: borderMode == 'normal' ? BorderSide(
-                      color: Colors.black12
-                    ) : BorderSide.none
+                    bottom: borderMode == 'normal' ? listTileBorderSide : BorderSide.none
                   )
                 ),
                 child: Row(
@@ -66,21 +67,13 @@ class WuiListTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           ...(title != null ? [DefaultTextStyle(
-                            style: (Theme.of(context).textTheme.subtitle1 ?? TextStyle(
-                              fontSize: 16
-                            )).copyWith(
-                              color: Colors.black87
-                            ), 
+                            style: Theme.of(context).textTheme.bodyText1!, 
                             child: Container(
                               child: title
                             )
                           )] : []),
                           ...(subtitle != null ? [DefaultTextStyle(
-                            style: (Theme.of(context).textTheme.bodyText2 ?? TextStyle(
-                              fontSize: 14
-                            )).copyWith(
-                              color: Colors.black54
-                            ), 
+                            style: Theme.of(context).textTheme.bodyText2!, 
                             child: Container(
                               child: subtitle
                             )
@@ -89,7 +82,6 @@ class WuiListTile extends StatelessWidget {
                       ),
                     ),
                     ...(trailing != null ? [
-                      SizedBox(width: 16),
                       Container(
                         width: 40, height: 40,
                         alignment: Alignment.centerRight,

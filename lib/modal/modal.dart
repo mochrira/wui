@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wui/button/button.dart';
+
+const wuiModalFooterButtonPadding = EdgeInsets.fromLTRB(8, 0, 8, 14);
 
 class WuiModal extends StatelessWidget {
 
@@ -6,37 +9,81 @@ class WuiModal extends StatelessWidget {
   final Widget? insetContent;
   final Widget? content;
   final Widget? footer;
-  const WuiModal({ Key? key, this.header, this.insetContent, this.content, this.footer }) : super(key: key);
+  final EdgeInsets? footerPadding;
+
+  const WuiModal({ 
+    Key? key, 
+    this.header,
+    this.insetContent,
+    this.content,
+    this.footer,
+    this.footerPadding
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ...(header != null ? [Container(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-            child: DefaultTextStyle(
-              style: (Theme.of(context).textTheme.subtitle1 ?? TextStyle()).copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.w500
-              ),
-              child: Container(child: header),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: double.infinity,
+          maxHeight: double.infinity
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 6),
+              blurRadius: 10,
+              spreadRadius: 0,
+              color: Colors.black.withOpacity(.14)
             ),
-          )] : []),
-          ...(insetContent != null || content != null ? [Container(
-            padding: (insetContent != null ? EdgeInsets.fromLTRB(24, 0, 24, 20) : EdgeInsets.all(0)),
-            child: insetContent ?? content
-          )] : []),
-          ...(footer != null ? [Container(
-            padding: EdgeInsets.fromLTRB(24, 0, 24, 20),
-            child: footer
-          )] : []),
-        ],
+            BoxShadow(
+              offset: Offset(0, 1),
+              blurRadius: 18,
+              spreadRadius: 0,
+              color: Colors.black.withOpacity(.12)
+            ),
+            BoxShadow(
+              offset: Offset(0, 3),
+              blurRadius: 5,
+              spreadRadius: -1,
+              color: Colors.black.withOpacity(.20)
+            )
+          ]
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ...(header != null ? [Container(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 20
+                ),
+                child: Container(child: header),
+              ),
+            )] : []),
+            ...(insetContent != null ? [Container(
+              padding: EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyText2!,
+                child: insetContent!
+              )
+            )] : []),
+            ...(content != null ? [DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyText2!,
+              child: content!
+            )] : []),
+            ...(footer != null ? [Container(
+              padding: footerPadding != null ? footerPadding! : EdgeInsets.fromLTRB(24, 0, 24, 24),
+              child: footer!,
+            )] : [])
+          ],
+        ),
       ),
     );
   }
@@ -45,15 +92,54 @@ class WuiModal extends StatelessWidget {
     Widget? header,
     Widget? insetContent,
     Widget? content,
+    EdgeInsets? footerPadding,
     Widget? footer
-  }) {
-    return showDialog(context: context, builder: (BuildContext context) {
-      return WuiModal(
+  }) async {
+    return await showGeneralDialog(
+      context: context, 
+      barrierColor: Colors.black.withOpacity(.32),
+      pageBuilder: (context, anim1, anim2) => WuiModal(
         header: header,
         insetContent: insetContent,
         content: content,
-        footer: footer,
-      );
-    });
+        footerPadding: footerPadding,
+        footer: footer
+      ),
+      barrierDismissible: true,
+      barrierLabel: "",
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (context, anim1, anim2, child) => Transform.scale(
+        scale: anim1.value,
+        child: Opacity(
+          opacity: anim1.value,
+          child: child
+        )
+      )
+    );
   }
+}
+
+class WuiDialog {
+
+  static Future<int?> open(BuildContext context, {
+    required String title,
+    required String message,
+    required List<String> buttons
+  }) async {
+    return await WuiModal.open(context, header: Text(title),
+      insetContent: Text(message),
+      footerPadding: wuiModalFooterButtonPadding,
+      footer: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List<Widget>.from(buttons.asMap().map((int index, String val) => MapEntry(index, WuiButton(
+          text: val,
+          smooth: true,
+          onPressed: () {
+            Navigator.of(context).pop(index);
+          },
+        ))).values.toList()),
+      )
+    );
+  }
+
 }
