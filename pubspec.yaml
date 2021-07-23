@@ -1,6 +1,6 @@
 name: wui
-description: A new Flutter package project.
-version: 0.4.0
+description: Flutter UI Libraries for Wajek Platform
+version: 0.4.1
 homepage: https://wajek.id
 repository: https://github.com/mochrira/wui
 
