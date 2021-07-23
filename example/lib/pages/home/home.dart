@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wui/action_sheet/action_sheet.dart';
-import 'package:wui/button/button.dart';
-import 'package:wui/dialog/dialog.dart';
-import 'package:wui/list_tile/list_tile.dart';
-import 'package:wui/modal/modal.dart';
+import 'package:wui/wui.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);
