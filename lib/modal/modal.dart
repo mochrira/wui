@@ -1,37 +1,145 @@
 import 'package:flutter/material.dart';
+import 'package:wui/button/button.dart';
+
+const wuiModalFooterButtonPadding = EdgeInsets.fromLTRB(8, 0, 8, 14);
 
 class WuiModal extends StatelessWidget {
 
-  final Widget? title;
-  final Widget? insetBody;
-  final Widget? body;
-  final List<Widget>? actions;
-  const WuiModal({ Key? key, this.title, this.insetBody, this.body, this.actions }) : super(key: key);
+  final Widget? header;
+  final Widget? insetContent;
+  final Widget? content;
+  final Widget? footer;
+  final EdgeInsets? footerPadding;
+
+  const WuiModal({ 
+    Key? key, 
+    this.header,
+    this.insetContent,
+    this.content,
+    this.footer,
+    this.footerPadding
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ...(title != null ? [Container(
-            padding: EdgeInsets.all(16),
-            child: DefaultTextStyle(
-              style: (Theme.of(context).textTheme.subtitle1 ?? TextStyle(
-                fontSize: 16
-              )).copyWith(
-                fontWeight: FontWeight.w500
-              ),
-              child: Container(child: title),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: double.infinity,
+          maxHeight: double.infinity
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 6),
+              blurRadius: 10,
+              spreadRadius: 0,
+              color: Colors.black.withOpacity(.14)
             ),
-          )] : []),
-          ...[Container(
-            padding: (insetBody != null ? EdgeInsets.fromLTRB(16, 0, 16, 16) : EdgeInsets.all(0)),
-            child: insetBody ?? body
-          )],
-        ],
+            BoxShadow(
+              offset: Offset(0, 1),
+              blurRadius: 18,
+              spreadRadius: 0,
+              color: Colors.black.withOpacity(.12)
+            ),
+            BoxShadow(
+              offset: Offset(0, 3),
+              blurRadius: 5,
+              spreadRadius: -1,
+              color: Colors.black.withOpacity(.20)
+            )
+          ]
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ...(header != null ? [Container(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 20
+                ),
+                child: Container(child: header),
+              ),
+            )] : []),
+            ...(insetContent != null ? [Container(
+              padding: EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyText2!,
+                child: insetContent!
+              )
+            )] : []),
+            ...(content != null ? [DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyText2!,
+              child: content!
+            )] : []),
+            ...(footer != null ? [Container(
+              padding: footerPadding != null ? footerPadding! : EdgeInsets.fromLTRB(24, 0, 24, 24),
+              child: footer!,
+            )] : [])
+          ],
+        ),
       ),
     );
   }
+
+  static Future<dynamic> open(BuildContext context, {
+    Widget? header,
+    Widget? insetContent,
+    Widget? content,
+    EdgeInsets? footerPadding,
+    Widget? footer
+  }) async {
+    return await showGeneralDialog(
+      context: context, 
+      barrierColor: Colors.black.withOpacity(.32),
+      pageBuilder: (context, anim1, anim2) => WuiModal(
+        header: header,
+        insetContent: insetContent,
+        content: content,
+        footerPadding: footerPadding,
+        footer: footer
+      ),
+      barrierDismissible: true,
+      barrierLabel: "",
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (context, anim1, anim2, child) => Transform.scale(
+        scale: anim1.value,
+        child: Opacity(
+          opacity: anim1.value,
+          child: child
+        )
+      )
+    );
+  }
+}
+
+class WuiDialog {
+
+  static Future<int?> open(BuildContext context, {
+    required String title,
+    required String message,
+    required List<String> buttons
+  }) async {
+    return await WuiModal.open(context, header: Text(title),
+      insetContent: Text(message),
+      footerPadding: wuiModalFooterButtonPadding,
+      footer: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List<Widget>.from(buttons.asMap().map((int index, String val) => MapEntry(index, WuiButton(
+          text: val,
+          smooth: true,
+          onPressed: () {
+            Navigator.of(context).pop(index);
+          },
+        ))).values.toList()),
+      )
+    );
+  }
+
 }

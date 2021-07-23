@@ -5,44 +5,70 @@ class WuiLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator()
-      );
+    return Container(
+      width: 28, height: 28,
+      child: CircularProgressIndicator(
+        strokeWidth: 3,
+      ),
+    );
   }
 
-  static bool canClose = false;
+  static bool _canClose = false;
 
   static modal(context) {
-    showDialog(context: context, builder: (BuildContext context) {
-      return WillPopScope(
-        onWillPop: () async {
-          return canClose;
-        },
-        child: Dialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(48),
-                color: Colors.white,
-                boxShadow: [BoxShadow(
-                  blurRadius: 16,
-                  color: Colors.black12,
-                  offset: Offset(0, 0)
-                )]
-              ),
-              padding: EdgeInsets.all(16),
-              child: CircularProgressIndicator()
+    showDialog(
+      context: context, 
+      barrierColor: Colors.black26, 
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async {
+            return _canClose;
+          },
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Center(
+              child: Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(
+                    color: Colors.black.withOpacity(.14),
+                    offset: Offset(0, 4),
+                    blurRadius: 5,
+                    spreadRadius: 0,
+                  ), BoxShadow(
+                    color: Colors.black.withOpacity(.12),
+                    offset: Offset(0, 1),
+                    blurRadius: 10,
+                    spreadRadius: 0,
+                  ), BoxShadow(
+                    color: Colors.black.withOpacity(.20),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                    spreadRadius: -1,
+                  )]
+                ),
+                child: Center(
+                  child: Container(
+                    width: 28, height: 28,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                    ),
+                  ),
+                )
+              )
             )
-          )
-        ),
-      );
-    }, barrierColor: Colors.black26);
+          ),
+        );
+      }
+    );
   }
 
   static close(context) {
-    canClose = true;
+    _canClose = true;
     Navigator.of(context).pop();
   }
 
