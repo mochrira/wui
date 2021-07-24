@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wui/button/button.dart';
+import 'package:wui/themes/constants.dart';
 
 const wuiModalFooterButtonPadding = EdgeInsets.fromLTRB(8, 0, 8, 14);
 
@@ -95,27 +96,13 @@ class WuiModal extends StatelessWidget {
     EdgeInsets? footerPadding,
     Widget? footer
   }) async {
-    return await showGeneralDialog(
-      context: context, 
-      barrierColor: Colors.black.withOpacity(.32),
-      pageBuilder: (context, anim1, anim2) => WuiModal(
-        header: header,
-        insetContent: insetContent,
-        content: content,
-        footerPadding: footerPadding,
-        footer: footer
-      ),
-      barrierDismissible: true,
-      barrierLabel: "",
-      transitionDuration: Duration(milliseconds: 200),
-      transitionBuilder: (context, anim1, anim2, child) => Transform.scale(
-        scale: anim1.value,
-        child: Opacity(
-          opacity: anim1.value,
-          child: child
-        )
-      )
-    );
+    return await wuiShowDialog(context, (context) => WuiModal(
+      header: header,
+      insetContent: insetContent,
+      content: content,
+      footerPadding: footerPadding,
+      footer: footer
+    ));
   }
 }
 
@@ -142,4 +129,22 @@ class WuiDialog {
     );
   }
 
+}
+
+wuiShowDialog(BuildContext context, Widget Function(BuildContext context) builder) async {
+  return await showGeneralDialog(
+    context: context, 
+    barrierColor: wuiDefaultBarrierColor,
+    pageBuilder: (context, anim1, anim2) => builder(context),
+    barrierDismissible: true,
+    barrierLabel: "",
+    transitionDuration: Duration(milliseconds: 200),
+    transitionBuilder: (context, anim1, anim2, child) => Transform.scale(
+      scale: anim1.value,
+      child: Opacity(
+        opacity: anim1.value,
+        child: child
+      )
+    )
+  );
 }

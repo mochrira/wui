@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wui/themes/constants.dart';
 
-BorderSide listTileBorderSide = BorderSide(
-  color: defaultBorderColor
+BorderSide wuiListTileBorderSide = BorderSide(
+  color: wuiDefaultBorderColor
 );
 
 class WuiListTile extends StatelessWidget {
@@ -35,7 +35,7 @@ class WuiListTile extends StatelessWidget {
         padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
           border: Border(
-            bottom: borderMode == 'full' ? listTileBorderSide : BorderSide.none
+            bottom: borderMode == 'full' ? wuiListTileBorderSide: BorderSide.none
           )
         ),
         child: Row(
@@ -57,7 +57,7 @@ class WuiListTile extends StatelessWidget {
                 padding: EdgeInsets.only(top: 16, bottom: 16, right: 12),
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: borderMode == 'normal' ? listTileBorderSide : BorderSide.none
+                    bottom: borderMode == 'normal' ? wuiListTileBorderSide : BorderSide.none
                   )
                 ),
                 child: Row(

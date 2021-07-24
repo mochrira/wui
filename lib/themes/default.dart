@@ -13,32 +13,32 @@ class WuiDefaultTheme {
         textTheme: TextTheme(
           headline6: Theme.of(context).textTheme.headline6?.copyWith(
             fontWeight: FontWeight.w500,
-            color: defaultTextColor,
-            fontFamily: defaultFontFamily
+            color: wuiDefaultTextColor,
+            fontFamily: wuiDefaultFontFamily
           ),
         ),
         iconTheme: Theme.of(context).iconTheme.copyWith(
-          color: defaultTextColor
+          color: wuiDefaultTextColor
         ),
         actionsIconTheme: Theme.of(context).iconTheme.copyWith(
-          color: defaultTextColor
+          color: wuiDefaultTextColor
         ),
       ),
       textTheme: Theme.of(context).textTheme.copyWith(
         bodyText1: Theme.of(context).textTheme.bodyText1?.copyWith(
           fontWeight: FontWeight.w500,
-          color: defaultTextColor,
+          color: wuiDefaultTextColor,
           fontSize: 16,
-          fontFamily: defaultFontFamily
+          fontFamily: wuiDefaultFontFamily
         ),
         bodyText2: Theme.of(context).textTheme.bodyText2?.copyWith(
-          color: defaultTextColor,
+          color: wuiDefaultTextColor,
           fontSize: 14,
-          fontFamily: defaultFontFamily
+          fontFamily: wuiDefaultFontFamily
         )
       ),
       iconTheme: Theme.of(context).iconTheme.copyWith(
-        color: defaultTextColor
+        color: wuiDefaultTextColor
       )
     );
   }
