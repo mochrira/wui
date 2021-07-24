@@ -15,6 +15,8 @@ class _FormPageState extends State<FormPage> {
   String _tipe = "Bahan Baku";
   List<String> _tipeOptions = ["Bahan Baku", "Menu Resto"];
 
+  Widget? _staticValue;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +39,12 @@ class _FormPageState extends State<FormPage> {
 
             WuiStaticField(
               label: Text("Static Text"),
-              value: Text("This is static text")
+              value: _staticValue,
+              onTap: () {
+                setState(() {
+                  _staticValue = Text("Test Static Value");
+                });
+              },
             ),
 
             WuiSelectField(

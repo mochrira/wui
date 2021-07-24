@@ -22,7 +22,7 @@ class WuiStaticField extends StatelessWidget {
     this.onTap
   }) : super(key: key);
 
-  get _hasContent {
+  get hasContent {
     return this.value != null;
   }
 
@@ -39,18 +39,12 @@ class WuiStaticField extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 16),
               child: GestureDetector(
                 onTap: () {
-                  if(!hasFocus) {
-                    focusNode.requestFocus();
-                  }
-
-                  if(onTap != null) {
-                    onTap!();
-                  }
+                  if(!hasFocus) focusNode.requestFocus();
+                  if(onTap != null) onTap!();
                 },
                 child: Container(
                   child: Stack(
                     children: [
-                    
                       // main container
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,15 +59,15 @@ class WuiStaticField extends StatelessWidget {
                               children: [
                                 // label
                                 AnimatedPositioned(
-                                  top: _hasContent || hasFocus ? 4 : 20,
+                                  top: hasContent ? 4 : 20,
                                   child: AnimatedDefaultTextStyle(
                                     duration: Duration(milliseconds: 200),
                                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                      fontSize: hasFocus || _hasContent ? 12 : 16,
+                                      fontSize: hasContent ? 12 : 16,
                                       color: hasFocus ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyText2!.color
                                     ),
-                                    child: label ?? Text(""),
-                                  ), 
+                                    child: label ?? Text("")
+                                  ),
                                   duration: Duration(milliseconds: 200)
                                 ),
                     
@@ -87,7 +81,7 @@ class WuiStaticField extends StatelessWidget {
                                     children: [
                                       ...(inputPrefix != null ? [AnimatedOpacity(
                                         duration: Duration(milliseconds: 200),
-                                        opacity: hasFocus || _hasContent ? 1 : 0,
+                                        opacity: hasFocus || hasContent ? 1 : 0,
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 8),
                                           child: DefaultTextStyle(
@@ -102,7 +96,7 @@ class WuiStaticField extends StatelessWidget {
                     
                                       Expanded(
                                         child: Opacity(
-                                          opacity: (_hasContent || hasFocus ? 1 : 0),
+                                          opacity: (hasContent || hasFocus ? 1 : 0),
                                           child: DefaultTextStyle(
                                             style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                               fontSize: 16,
@@ -119,7 +113,7 @@ class WuiStaticField extends StatelessWidget {
                     
                                       ...(inputSuffix != null ? [AnimatedOpacity(
                                         duration: Duration(milliseconds: 200),
-                                        opacity: hasFocus || _hasContent ? 1 : 0,
+                                        opacity: hasFocus || hasContent ? 1 : 0,
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 8),
                                           child: DefaultTextStyle(
