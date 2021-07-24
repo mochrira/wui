@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wui/modal/modal.dart';
 
 class WuiLoading extends StatelessWidget {
   const WuiLoading({ Key? key }) : super(key: key);
@@ -15,11 +16,8 @@ class WuiLoading extends StatelessWidget {
 
   static bool _canClose = false;
 
-  static modal(context) {
-    showDialog(
-      context: context, 
-      barrierColor: Colors.black26, 
-      builder: (BuildContext context) {
+  static open(context) {
+    wuiShowDialog(context, (BuildContext context) {
         return WillPopScope(
           onWillPop: () async {
             return _canClose;

@@ -98,7 +98,7 @@ class _WuiFormFieldState extends State<WuiFormField> {
                       children: [
                         // label
                         AnimatedPositioned(
-                          top: _hasContent || _focused ? 4 : 18,
+                          top: _hasContent || _focused ? 4 : 20,
                           child: AnimatedDefaultTextStyle(
                             duration: Duration(milliseconds: 200),
                             style: Theme.of(context).textTheme.bodyText2!.copyWith(
@@ -154,7 +154,7 @@ class _WuiFormFieldState extends State<WuiFormField> {
                                       ),
                                       hintText: widget.placeholderText,
                                       border: InputBorder.none,
-                                      contentPadding: EdgeInsets.all(0)
+                                      contentPadding: EdgeInsets.only(top: 8)
                                     ),
                                   ),
                                 ),
@@ -199,7 +199,7 @@ class _WuiFormFieldState extends State<WuiFormField> {
                       bottom: BorderSide(
                         width: _focused ? 2 : 1,
                         style: BorderStyle.solid,
-                        color: _focused ? Theme.of(context).primaryColor : defaultBorderColor
+                        color: _focused ? Theme.of(context).primaryColor : wuiDefaultBorderColor
                       )
                     )
                   ),

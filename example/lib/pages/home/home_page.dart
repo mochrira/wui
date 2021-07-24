@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buttonPress(BuildContext context) {
-    WuiLoading.modal(context);
+    WuiLoading.open(context);
     Timer(Duration(seconds: 5), () {
       WuiLoading.close(context);
     });
@@ -77,11 +77,33 @@ class _HomePageState extends State<HomePage> {
               child: WuiFormField(
                 labelText: "Email",
                 placeholderText: "Pilih salah satu",
+                readOnly: true,
                 trailing: WuiButton(
                   iconOnly: true,
-                  icon: Icons.chevron_right,
+                  icon: Icons.arrow_drop_down,
                   smooth: true,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await WuiActionSheet.open(context, 
+                    title: Text("Pilih Email"),
+                    actions: [
+                      WuiListTile(
+                        leading: Icon(Icons.radio_button_off),
+                        title: Text("mochrira@gmail.com"),
+                        onTap: () {},
+                        borderMode: 'normal',
+                      ),
+                      WuiListTile(
+                        leading: IconTheme(
+                          data: IconThemeData(
+                            color: Theme.of(context).primaryColor
+                          ),
+                          child: Icon(Icons.radio_button_on)
+                        ),
+                        title: Text("selviaja69@gmail.com"),
+                        onTap: () {},
+                      )
+                    ]);
+                  },
                 ),
               ),
             );
