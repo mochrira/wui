@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wui/themes/constants.dart';
 
-enum WuiButtonSize { large, normal }
+enum WuiButtonSize { large, normal, small }
 enum WuiButtonIconPos { prefix, suffix }
 enum WuiButtonTheme { normal, primary, danger }
 
@@ -31,11 +32,11 @@ class WuiButton extends StatelessWidget {
   }) : super(key: key);
 
   double getMinheight() {
-    return this.size == WuiButtonSize.normal ? 36 : 48;
+    return size == WuiButtonSize.small ? 32 : (size == WuiButtonSize.normal ? 48 : 64);
   }
 
   double getFontSize() {
-    return this.size == WuiButtonSize.normal ? 14 : 16;
+    return size == WuiButtonSize.small ? 14 : (size == WuiButtonSize.normal ? 16 : 24);
   }
 
   EdgeInsets getPadding() {
@@ -44,9 +45,9 @@ class WuiButton extends StatelessWidget {
       horizontalPadding = (size == WuiButtonSize.normal ? 6 : 12);
     } else {
       if(rounded == true) {
-        horizontalPadding = (size == WuiButtonSize.normal ? 24 : 32);
+        horizontalPadding = (size == WuiButtonSize.small ? 28 : (size == WuiButtonSize.normal ? 32 : 40));
       } else {
-        horizontalPadding = (size == WuiButtonSize.normal ? 16 : 24);
+        horizontalPadding = (size == WuiButtonSize.small ? 14 : (size == WuiButtonSize.normal ? 24 : 32));
       }
     }
     return EdgeInsets.symmetric(horizontal: horizontalPadding);
@@ -55,9 +56,9 @@ class WuiButton extends StatelessWidget {
   BorderRadius getBorderRadius() {
     double radius = 4;
     if(iconOnly == true || rounded == true) {
-      radius = (size == WuiButtonSize.normal ? 18 : 24);
+      radius = size == WuiButtonSize.small ? 12 : (size == WuiButtonSize.normal ? 24 : 32);
     } else {
-      radius = (size == WuiButtonSize.normal ? 4 : 8);
+      radius = size == WuiButtonSize.small ? 4 : (size == WuiButtonSize.normal ? 8 : 12);
     }
     return BorderRadius.circular(radius);
   }
@@ -66,7 +67,7 @@ class WuiButton extends StatelessWidget {
     switch(theme) {
       case WuiButtonTheme.danger: return Color(0xFFDB2323);
       case WuiButtonTheme.primary: return Theme.of(context).primaryColor;
-      default: return Colors.black.withOpacity(.04);
+      default: return Colors.black.withOpacity(.1);
     }
   }
 
@@ -75,14 +76,14 @@ class WuiButton extends StatelessWidget {
       switch (theme) {
         case WuiButtonTheme.danger: return Color(0xFFDB2323);
         case WuiButtonTheme.primary: return Theme.of(context).primaryColor;
-        default: return Colors.black.withOpacity(.67);
+        default: return wuiDefaultTextColor;
       }
     }
 
     switch (theme) {
       case WuiButtonTheme.danger:
       case WuiButtonTheme.primary: return Colors.white;
-      default: return Colors.black.withOpacity(.67);
+      default: return wuiDefaultTextColor;
     }
   }
 
@@ -112,60 +113,82 @@ class WuiButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: onPressed != null ? 1 : .5,
-      child: RawMaterialButton(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        fillColor: getFillColor(context),
-        highlightColor: getHighlightColor(context),
-        splashColor: getHighlightColor(context),
-        elevation: 0,
-        focusElevation: 0,
-        hoverElevation: 0,
-        highlightElevation: 0,
-        padding: getPadding(),
-        constraints: BoxConstraints(
-          minHeight: getMinheight()
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: getBorderRadius()
-        ),
-        child: IconTheme(
-          data: IconThemeData(
-            color: getTextColor(context)
-          ),
-          child: DefaultTextStyle(
-            style: (Theme.of(context).textTheme.button ?? TextStyle(
-              fontSize: getFontSize(),
-              fontWeight: FontWeight.w500
-            )).copyWith(
-              color: getTextColor(context)
-            ),    
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // leading icon
-                ...(icon != null ? (iconPos == WuiButtonIconPos.prefix ? 
-                  [Icon(icon), ...((iconOnly ?? false) == false ? [getIconSpacing()] :[])] : [])
-                 : []),
-
-                // text
-                ...(text != null && (iconOnly ?? false) == false ? [Text(text ?? '')] : []),
-
-                // trailing icon
-                ...(icon != null ? (iconPos == WuiButtonIconPos.suffix ? 
-                  [...((iconOnly ?? false) == false ? [getIconSpacing()] :[]), Icon(icon)] : [])
-                 : [])
-              ],
-            )
-          ),
-        ),
-        onPressed: onPressed != null ? () {
-          onPressed!();
-        } : null
+    return RawMaterialButton(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      fillColor: getFillColor(context),
+      highlightColor: getHighlightColor(context),
+      splashColor: getHighlightColor(context),
+      elevation: 0,
+      focusElevation: 0,
+      hoverElevation: 0,
+      highlightElevation: 0,
+      padding: getPadding(),
+      constraints: BoxConstraints(
+        minHeight: getMinheight()
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: getBorderRadius()
+      ),
+      child: IconTheme(
+        data: IconThemeData(
+          color: getTextColor(context)
+        ),
+        child: DefaultTextStyle(
+          style: (Theme.of(context).textTheme.button!.copyWith(
+            fontSize: getFontSize(),
+            fontWeight: FontWeight.w500,
+            color: getTextColor(context)
+          )),    
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // leading icon
+              ...(icon != null ? (iconPos == WuiButtonIconPos.prefix ? 
+                [Icon(icon), ...((iconOnly ?? false) == false ? [getIconSpacing()] :[])] : [])
+               : []),
+
+              // text
+              ...(text != null && (iconOnly ?? false) == false ? [Text(text ?? '')] : []),
+
+              // trailing icon
+              ...(icon != null ? (iconPos == WuiButtonIconPos.suffix ? 
+                [...((iconOnly ?? false) == false ? [getIconSpacing()] :[]), Icon(icon)] : [])
+               : [])
+            ],
+          )
+        ),
+      ),
+      onPressed: onPressed != null ? () {
+        onPressed!();
+      } : null
+    );
+  }
+}
+
+class GoogleButton extends StatelessWidget {
+  const GoogleButton({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      constraints: BoxConstraints(
+        minHeight: 64,
+        minWidth: 64,
+        maxHeight: 64,
+        maxWidth: 64
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(32)
+      ),
+      child: Image.asset('assets/images/google.png', 
+        package: 'wui',
+        width: 48,
+        height: 48,
+      ),
+      onPressed: () {},
     );
   }
 }

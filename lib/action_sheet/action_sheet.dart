@@ -14,7 +14,7 @@ class WuiActionSheet extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...(title != null ? [Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.fromLTRB(18, 20, 18, 12),
           child: DefaultTextStyle(
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
               fontSize: 20
@@ -29,10 +29,12 @@ class WuiActionSheet extends StatelessWidget {
 
   static Future<dynamic> open(BuildContext context, {
     Widget? title,
-    List<Widget>? actions
+    List<Widget>? actions,
+    bool useRootNavigator = true
   }) {
     return showModalBottomSheet(context: context, 
       barrierColor: wuiDefaultBarrierColor,
+      useRootNavigator: useRootNavigator,
       builder: (BuildContext context) {
         return WuiActionSheet(
           title: title,

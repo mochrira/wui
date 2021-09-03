@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wui/button/button.dart';
 import 'package:wui/themes/constants.dart';
 
-const wuiModalFooterButtonPadding = EdgeInsets.fromLTRB(8, 0, 8, 14);
+const wuiModalFooterButtonPadding = EdgeInsets.fromLTRB(16, 0, 16, 16);
 
 class WuiModal extends StatelessWidget {
 
@@ -60,10 +60,10 @@ class WuiModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ...(header != null ? [Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              padding: EdgeInsets.fromLTRB(24, 24, 24, 18),
               child: DefaultTextStyle(
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 20
+                  fontSize: 18
                 ),
                 child: Container(child: header),
               ),
@@ -111,16 +111,19 @@ class WuiDialog {
   static Future<int?> open(BuildContext context, {
     required String title,
     required String message,
-    required List<String> buttons
+    required List<String> buttons,
+    int? defaultIndex
   }) async {
     return await WuiModal.open(context, header: Text(title),
       insetContent: Text(message),
       footerPadding: wuiModalFooterButtonPadding,
       footer: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: List<Widget>.from(buttons.asMap().map((int index, String val) => MapEntry(index, WuiButton(
           text: val,
           smooth: true,
+          size: WuiButtonSize.small,
+          theme: defaultIndex == index ? WuiButtonTheme.primary : WuiButtonTheme.normal,
           onPressed: () {
             Navigator.of(context).pop(index);
           },

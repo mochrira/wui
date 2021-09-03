@@ -46,6 +46,7 @@ class WuiDialog extends StatelessWidget {
                   WuiButton(
                     text: caption,
                     smooth: true,
+                    size: WuiButtonSize.small,
                     onPressed: () {
                       Navigator.of(context).pop(index);
                     },

@@ -1,6 +1,6 @@
 name: wui
 description: Flutter UI Libraries for Wajek Platform
-version: 0.4.3
+version: 0.4.4
 homepage: https://wajek.id
 repository: https://github.com/mochrira/wui
 
@@ -21,6 +21,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - assets/images/google.png
 
   # To add assets to your package, add an assets section, like this:
   # assets:

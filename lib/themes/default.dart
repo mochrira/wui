@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wui/themes/constants.dart';
 
 class WuiDefaultTheme {
-  static ThemeData light(BuildContext context) {
+  static ThemeData light(BuildContext context, { MaterialColor? primarySwatch }) {
     return ThemeData(
       scaffoldBackgroundColor: Colors.white,
-      primarySwatch: Colors.blue,
+      primarySwatch: primarySwatch ?? Colors.blue,
       appBarTheme: AppBarTheme(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
@@ -33,7 +33,7 @@ class WuiDefaultTheme {
         ),
         bodyText2: Theme.of(context).textTheme.bodyText2?.copyWith(
           color: wuiDefaultTextColor,
-          fontSize: 14,
+          fontSize: wuiDefaultFontSize,
           fontFamily: wuiDefaultFontFamily
         )
       ),
