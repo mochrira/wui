@@ -31,6 +31,8 @@ class WuiListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      highlightColor: Colors.grey.shade100,
+      splashColor: Colors.grey.shade400,
       child: Container(
         padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(

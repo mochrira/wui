@@ -16,6 +16,8 @@ class WuiFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool readOnly;
   final String? placeholderText;
+  final bool obscureText;
+  final bool autoFocus;
 
   const WuiFormField({ 
     Key? key, 
@@ -29,6 +31,8 @@ class WuiFormField extends StatefulWidget {
     this.keyboardType,
     this.readOnly = false,
     this.placeholderText,
+    this.obscureText = false,
+    this.autoFocus = false
   }) : super(key: key);
 
   @override
@@ -123,7 +127,7 @@ class _WuiFormFieldState extends State<WuiFormField> {
                                 duration: Duration(milliseconds: 200),
                                 opacity: _focused || _hasContent ? 1 : 0,
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 8),
+                                  padding: EdgeInsets.only(right: 8, top: 8),
                                   child: DefaultTextStyle(
                                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                       fontSize: 16,
@@ -140,6 +144,8 @@ class _WuiFormFieldState extends State<WuiFormField> {
                                   child: TextField(
                                     controller: _controller!, 
                                     focusNode: _focusNode!, 
+                                    obscureText: widget.obscureText,
+                                    autofocus: widget.autoFocus,
                                     style: TextStyle(
                                       fontSize: 16,
                                       height: 1.125,
@@ -164,7 +170,7 @@ class _WuiFormFieldState extends State<WuiFormField> {
                                 duration: Duration(milliseconds: 200),
                                 opacity: _focused || _hasContent ? 1 : 0,
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 8),
+                                  padding: EdgeInsets.only(right: 8, top: 8),
                                   child: DefaultTextStyle(
                                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                       fontSize: 16,
