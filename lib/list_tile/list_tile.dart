@@ -11,6 +11,7 @@ class WuiListTile extends StatelessWidget {
   final Widget? title;
   final Widget? subtitle;
   final Widget? leading;
+  final Widget? trailingContent;
   final Widget? trailing;
   final String borderMode;
 
@@ -20,6 +21,7 @@ class WuiListTile extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.trailingContent,
     this.borderMode = 'none'
   }) : super(key: key);
 
@@ -65,21 +67,30 @@ class WuiListTile extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                      child: Row(
                         children: [
-                          ...(title != null ? [DefaultTextStyle(
-                            style: Theme.of(context).textTheme.bodyText1!, 
-                            child: Container(
-                              child: title
-                            )
-                          )] : []),
-                          ...(subtitle != null ? [DefaultTextStyle(
-                            style: Theme.of(context).textTheme.bodyText2!, 
-                            child: Container(
-                              child: subtitle
-                            )
-                          )] : []),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                ...(title != null ? [DefaultTextStyle(
+                                  style: Theme.of(context).textTheme.bodyText1!, 
+                                  child: Container(
+                                    child: title
+                                  )
+                                )] : []),
+                                ...(subtitle != null ? [DefaultTextStyle(
+                                  style: Theme.of(context).textTheme.bodyText2!, 
+                                  child: Container(
+                                    child: subtitle
+                                  )
+                                )] : []),
+                              ],
+                            ),
+                          ),
+                          ...(trailingContent != null ? [
+                            Expanded(child: trailingContent!)
+                          ] : [])
                         ],
                       ),
                     ),
