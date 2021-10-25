@@ -109,8 +109,8 @@ class _KontakPageState extends State<KontakPage> {
         params: params
       );
       setState(() {
-        if(res.data!.length > 0) {
-          _dataKontak.addAll(res.data!);
+        if(res.data.length > 0) {
+          _dataKontak.addAll(res.data);
           _page++;
         } else {
           _lastPage = true;

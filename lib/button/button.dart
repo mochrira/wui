@@ -168,7 +168,9 @@ class WuiButton extends StatelessWidget {
 }
 
 class GoogleButton extends StatelessWidget {
-  const GoogleButton({ Key? key }) : super(key: key);
+
+  final Function? onPressed;
+  const GoogleButton({ Key? key, this.onPressed }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +190,11 @@ class GoogleButton extends StatelessWidget {
         width: 48,
         height: 48,
       ),
-      onPressed: () {},
+      onPressed: () {
+        if(onPressed != null) {
+          onPressed!();
+        }
+      },
     );
   }
 }

@@ -8,11 +8,11 @@ import 'package:http/http.dart' as http;
 class KontakResult {
 
   int? count;
-  List<Kontak>? data;
+  List<Kontak> data;
 
   KontakResult({
-    this.count,
-    this.data
+    required this.data,
+    this.count
   });
 
 }
