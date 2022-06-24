@@ -42,7 +42,7 @@ class _WuiSliverAppBarState extends State<WuiSliverAppBar> with SingleTickerProv
       duration: const Duration(milliseconds: 200),
       animationBehavior: AnimationBehavior.normal
     );
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _appBarHeight = 56 + (widget.bottom?.preferredSize.height ?? 0) + MediaQuery.of(context).padding.top;
       _maxHeight = _sizeChangeKey.currentContext!.size!.height - _appBarHeight;
     });

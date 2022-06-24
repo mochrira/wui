@@ -136,7 +136,7 @@ class _KontakPageState extends State<KontakPage> {
         _next();
       }
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _next();
     });
   }
