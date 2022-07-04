@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:example/models/kontak.dart';
-import 'package:example/pages/kontak/kontak_form_page.dart';
 import 'package:example/services/kontak_service.dart';
 import 'package:flutter/material.dart';
 import 'package:wui/wui.dart';
@@ -154,72 +153,64 @@ class _KontakPageState extends State<KontakPage> {
       child: Scaffold(
         drawer: WuiDrawer(),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: Icon(Icons.refresh),
           onPressed: () async {
-            Kontak? kontak = await Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => KontakFormPage()
-            ));
-          },
-        ),
-        body: RefreshIndicator(
-          onRefresh: () async {
             _refresh();
           },
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              ...[WuiSliverAppBar(
-                leading: _searchMode ? IconButton(
-                  icon: Icon(Icons.arrow_back),
+        ),
+        body: CustomScrollView(
+          slivers: [
+            WuiSliverAppBar(
+              leading: _searchMode ? IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  _toggleSearch();
+                }
+              ) : null,
+              alwaysShowTitle: _searchMode ? true : false,
+              title: _searchMode ? TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Kata Kunci..."
+                )
+              ) : Text("Kontak"),
+              actions: _searchMode ? [] : [
+                IconButton(
                   onPressed: () {
                     _toggleSearch();
-                  },
-                ) : null,
-                title: _searchMode ? TextField(
-                  decoration: InputDecoration(
-                    hintText: "Kata kunci...",
-                    border: InputBorder.none
-                  )
-                ) : Text("Data Kontak"),
-                flexibleTitle: WuiTextHeading3("Data Kontak"),
-                showExpanded: !_searchMode,
-                subtitle: Text(_isLoading && _page == 1 ? "Memuat..." : "Total " + _count.toString() + " Kontak"),
-                actions: _searchMode ? [] : [
-                  IconButton(
-                    onPressed: () {
-                      _toggleSearch();
-                    },
-                    icon: Icon(Icons.search),
-                  )
-                ],
-              )],
-              SliverList(delegate: SliverChildListDelegate([
-                ..._dataKontak.asMap().map((index, value) => MapEntry(index, WuiListTile(
-                  leading: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: Colors.grey.shade300
+                  }, 
+                  icon: Icon(Icons.search)
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+              ],
+              flexibleTitle: Text("Kontak"),
+              flexibleSubTitle: Text("Total 123 Kontak"),
+            ),
+            SliverList(delegate: SliverChildListDelegate([
+              ..._dataKontak.asMap().map((index, kontak) => MapEntry(index, WuiListTile(
+                title: Text(kontak.nmKontak ?? ""),
+                subtitle: Text(kontak.nomor ?? ""),
+                borderMode: 'full',
+                trailing: Icon(Icons.more_vert),
+                onTap: () {
+                  WuiActionSheet.open(context, title: Text(kontak.nmKontak ?? ""), actions: [
+                    WuiListTile(
+                      leading: Icon(Icons.edit),
+                      title: Text("Edit Kontak"),
+                      borderMode: 'normal',
                     ),
-                    width: 48,
-                    height: 48
-                  ),
-                  title: Text(_dataKontak[index].nmKontak ?? ""),
-                  subtitle: Text("+62 " + (_dataKontak[index].nomor ?? "")),
-                  borderMode: "full",
-                  trailing: Icon(Icons.more_vert),
-                  onTap: () {
-                    _itemTap(context, index);
-                  },
-                ))).values.toList(),
-                ..._isLoading ? [Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator())
-                )] : []
-              ]))
-            ],
-          ),
+                    WuiListTile(
+                      leading: Icon(Icons.delete),
+                      title: Text("Hapus Kontak")
+                    )
+                  ]);
+                },
+              ))).values.toList()
+            ]))
+          ],
         )
       ),
     );
   }
 }
+

@@ -22,7 +22,8 @@ class WuiActionSheet extends StatelessWidget {
             child: title ?? Container(),
           ),
         )] : []),
-        ...(actions ?? [])
+        ...(actions ?? []),
+        SizedBox(height: 16)
       ],
     );
   }

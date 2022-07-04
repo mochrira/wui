@@ -13,7 +13,7 @@ export './modal/modal.dart';
 export './utils/config.dart';
 export './drawer/drawer.dart';
 export './loading/loading.dart';
-export './slivers/app_bar.dart';
+export './app_bar/app_bar.dart';
 
 export './typography/heading.dart';
 
