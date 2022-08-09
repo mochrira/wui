@@ -1,6 +1,6 @@
 name: wui
 description: Flutter UI Libraries for Wajek Platform
-version: 0.4.4
+version: 0.4.5
 homepage: https://wajek.id
 repository: https://github.com/mochrira/wui
 
@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:

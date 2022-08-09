@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wui/themes/constants.dart';
 
 BorderSide wuiListTileBorderSide = BorderSide(
-  color: wuiDefaultBorderColor
+  color: wuiColorBorder
 );
 
 class WuiListTile extends StatelessWidget {
@@ -11,6 +11,7 @@ class WuiListTile extends StatelessWidget {
   final Widget? title;
   final Widget? subtitle;
   final Widget? leading;
+  final Widget? trailingContent;
   final Widget? trailing;
   final String borderMode;
 
@@ -20,6 +21,7 @@ class WuiListTile extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.trailingContent,
     this.borderMode = 'none'
   }) : super(key: key);
 
@@ -37,7 +39,7 @@ class WuiListTile extends StatelessWidget {
         padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
           border: Border(
-            bottom: borderMode == 'full' ? wuiListTileBorderSide: BorderSide.none
+            bottom: borderMode == 'full' ? wuiListTileBorderSide : BorderSide.none
           )
         ),
         child: Row(
@@ -56,7 +58,7 @@ class WuiListTile extends StatelessWidget {
             ] : []),
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(top: 16, bottom: 16, right: 12),
+                padding: EdgeInsets.only(top: 14, bottom: 14, right: 12),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: borderMode == 'normal' ? wuiListTileBorderSide : BorderSide.none
@@ -65,21 +67,34 @@ class WuiListTile extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                      child: Row(
                         children: [
-                          ...(title != null ? [DefaultTextStyle(
-                            style: Theme.of(context).textTheme.bodyText1!, 
-                            child: Container(
-                              child: title
-                            )
-                          )] : []),
-                          ...(subtitle != null ? [DefaultTextStyle(
-                            style: Theme.of(context).textTheme.bodyText2!, 
-                            child: Container(
-                              child: subtitle
-                            )
-                          )] : []),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                ...(title != null ? [DefaultTextStyle(
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: wuiColorHeading
+                                  ), 
+                                  child: Container(
+                                    child: title
+                                  )
+                                )] : []),
+                                ...(subtitle != null ? [DefaultTextStyle(
+                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                    color: wuiColorText
+                                  ), 
+                                  child: Container(
+                                    child: subtitle
+                                  )
+                                )] : []),
+                              ],
+                            ),
+                          ),
+                          ...(trailingContent != null ? [
+                            Expanded(child: trailingContent!)
+                          ] : [])
                         ],
                       ),
                     ),

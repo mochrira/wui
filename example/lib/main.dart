@@ -7,10 +7,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    WuiConfig.addValue('apiURL', 'http://192.168.1.6:8084/');
+    WuiConfig.addValue('apiURL', 'http://localhost:8084/');
     return MaterialApp(
       title: 'Flutter Demo',
       theme: WuiDefaultTheme.light(context),

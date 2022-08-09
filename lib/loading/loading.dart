@@ -14,9 +14,14 @@ class WuiLoading extends StatelessWidget {
     );
   }
 
+  static bool _show = false;
   static bool _canClose = false;
 
   static open(context) {
+    if(_show) return;
+
+    _show = true;
+    _canClose = false;
     wuiShowDialog(context, (BuildContext context) {
         return WillPopScope(
           onWillPop: () async {
@@ -66,8 +71,11 @@ class WuiLoading extends StatelessWidget {
   }
 
   static close(context) {
-    _canClose = true;
-    Navigator.of(context).pop();
+    if(_show) {
+      _canClose = true;
+      _show = false;
+      Navigator.of(context).pop();
+    }
   }
 
 }
